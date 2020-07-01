@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "table_product")
@@ -38,8 +40,13 @@ public class Product implements Serializable {
 
 	}
 	
-	public Set<OrderItem> getItems() {
-		return items;
+	@JsonIgnore
+	public Set<Order> getItems(){
+		Set<Order> set = new HashSet<>();
+		for(OrderItem x : items) {
+			set.add(x.getOrder());
+		}
+		return set;
 	}
 
 	public Long getId() {
