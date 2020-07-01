@@ -2,7 +2,6 @@ package com.store.resources;
 
 import java.net.URI;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +65,7 @@ public class OrderResource {
 		orderItemRepository.save(oi1);
 		
 		var order = service.insert(obj);
+		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(order.getId()).toUri();
 		return ResponseEntity.created(uri).body(order);
