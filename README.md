@@ -1,6 +1,7 @@
 
 # Descrição da Web API
-Aplicação em Java 11 com Sprig boot / framework, utilizando com persistência JPA (PostgresSql) 
+Aplicação em Java 11 com Sprig boot / framework, 
+utilizando persistência JPA + PostgresSQL Cloud da AmazonAWS, 
 com JWT autenticação sem usuário e senha, somente por tempo limite. 
 Patterns: MVC + Java architecture
 Link heroku: https://webapi2020testings.herokuapp.com/
