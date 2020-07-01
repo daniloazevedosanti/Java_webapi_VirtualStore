@@ -2,7 +2,6 @@ package com.store.resources;
 
 import java.net.URI;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.store.entities.Order;
 import com.store.entities.OrderItem;
+import com.store.entities.RequestOrder;
 import com.store.repositories.OrderItemRepository;
 import com.store.services.ClientService;
 import com.store.services.OrderService;
@@ -30,8 +29,13 @@ public class OrderResource {
 	@Autowired
 	private OrderService service;
 	
+	@Autowired
 	private ClientService clientServices;
+	
+	@Autowired
 	private ProductService productServices;
+	
+	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
 	@GetMapping
@@ -47,19 +51,23 @@ public class OrderResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	
 	@PostMapping
-	public ResponseEntity<Order> insert(@RequestBody Long client_id, Long product_id, int quantity) {
-		Instant moment =  Instant.now()
-		var u1 = clientServices.findById(client_id);
-		var p1 = productServices.findById(product_id);
+	public ResponseEntity<Order> insert(@RequestBody RequestOrder res) {
+		
+		Instant moment =  Instant.now();
+		var u1 = clientServices.findById(res.getClientId());
+		var p1 = productServices.findById(res.getProductId());
+		
 		Order obj = new Order(null, moment, u1);
+		service.insert(obj);
 		
-		OrderItem oi1 = new OrderItem(obj, p1, quantity, p1.getPrice());
-		orderItemRepository.saveAll(Arrays.asList(oi1));
+		OrderItem oi1 = new OrderItem(obj, p1, res.getQuantity(), p1.getPrice());
+		orderItemRepository.save(oi1);
 		
-		obj = service.insert(obj);
+		var order = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+				.buildAndExpand(order.getId()).toUri();
+		return ResponseEntity.created(uri).body(order);
 	}
 }
