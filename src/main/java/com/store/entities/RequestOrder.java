@@ -1,5 +1,8 @@
 package com.store.entities;
 
+import io.swagger.annotations.ApiModel;
+
+@ApiModel(value="Requisição de pedido")
 public class RequestOrder {
 	
 	private Long clientId;

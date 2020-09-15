@@ -13,8 +13,11 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModel;
+
 @Entity
 @Table(name = "table_client")
+@ApiModel(value="Cliente")
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

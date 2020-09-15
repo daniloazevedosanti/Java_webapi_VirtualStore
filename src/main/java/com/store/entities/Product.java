@@ -13,9 +13,12 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModel;
+
 
 @Entity
 @Table(name = "table_product")
+@ApiModel(value="Produto")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

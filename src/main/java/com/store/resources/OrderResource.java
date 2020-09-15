@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +22,13 @@ import com.store.services.ClientService;
 import com.store.services.OrderService;
 import com.store.services.ProductService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/orders")
+@CrossOrigin(origins = "*")
+@Api(value="Módulo requisições de Pedidos")
 public class OrderResource {
 	
 	@Autowired
@@ -37,6 +43,7 @@ public class OrderResource {
 	@Autowired
 	private OrderItemRepository orderItemRepository;
 	
+	@ApiOperation(value="Retorna uma lista de todos os pedidos feitos.")
 	@GetMapping
 	public ResponseEntity<List<Order>> findAll(){
 		List<Order> list = service.findAll();  
@@ -44,6 +51,7 @@ public class OrderResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	@ApiOperation(value="Retorna um pedido pelo id da base")
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Order> findById(@PathVariable Long id){
 		Order obj = service.findById(id);
@@ -51,6 +59,7 @@ public class OrderResource {
 	}
 	
 	
+	@ApiOperation(value="Realiza a inserção de pedido na base")
 	@PostMapping
 	public ResponseEntity<Order> insert(@RequestBody RequestOrder res) {
 		
